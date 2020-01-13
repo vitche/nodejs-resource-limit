@@ -1,0 +1,12 @@
+{
+  "name": "nodejs-resource-limit",
+  "version": "1.0.0",
+  "description": "A trigger to stop/report the application consuming too much specific resources.",
+  "main": "main.js",
+  "scripts": {
+    "test-memory": "node tests/memory",
+    "start": "node main.js"
+  },
+  "author": "Vitche Research Team Developer",
+  "license": "ISC"
+}
