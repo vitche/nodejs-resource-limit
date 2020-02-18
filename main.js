@@ -32,8 +32,14 @@ module.exports = function (argument) {
         };
         this.log = function log(boundResult) {
             self.action = log;
+            if ('function' === typeof boundResult) {
+                self.actionLogArgument = boundResult;
+            }
             if (result || boundResult) {
-                console.log(':)');
+                if (self.actionLogArgument) {
+                    const message = self.actionLogArgument();
+                    console.log(message);
+                }
             }
         };
         return this;
