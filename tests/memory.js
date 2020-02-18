@@ -1,11 +1,6 @@
 let ResourceLimit = require('../main');
 
 new ResourceLimit()
-    .events()
-    .moreListenersThan(10)
-    .terminate();
-
-new ResourceLimit()
     .memory()
     .moreThan(2570000)
     .terminate();

@@ -1,3 +1,5 @@
+const EventEmitter = require('events');
+
 module.exports = function (argument) {
     // Instance magic
     let self = this;
@@ -28,6 +30,12 @@ module.exports = function (argument) {
                 process.exit();
             }
         };
+        this.log = function log(boundResult) {
+            self.action = log;
+            if (result || boundResult) {
+                console.log(':)');
+            }
+        };
         return this;
     };
     // Memory-related limits
@@ -50,7 +58,23 @@ module.exports = function (argument) {
             moreListenersThan: function moreListenersThan(allowedAmount) {
                 self.checkArguments = arguments;
                 self.check = moreListenersThan;
-                const result = true;
+                const globalListenerCount = EventEmitter.prototype.globalListenerCount;
+                if (undefined === globalListenerCount) {
+                    EventEmitter.prototype.globalListenerCount = 0;
+                    EventEmitter.prototype.onOriginal = EventEmitter.prototype.on;
+                    EventEmitter.prototype.on = function () {
+                        EventEmitter.prototype.globalListenerCount++;
+                        return EventEmitter.prototype.onOriginal.apply(this, arguments);
+                    };
+                    EventEmitter.prototype.removeListenerOriginal = EventEmitter.prototype.removeListener;
+                    EventEmitter.prototype.removeListener = function () {
+                        EventEmitter.prototype.globalListenerCount--;
+                        return EventEmitter.prototype.removeListenerOriginal.apply(this, arguments);
+                    };
+                }
+                const amount = EventEmitter.prototype.globalListenerCount;
+                const result = allowedAmount < amount;
+                console.log("Resource limit, event listeners: " + allowedAmount + "?<" + amount);
                 return triggeredAction(result);
             }
         }
