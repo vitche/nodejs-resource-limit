@@ -1,3 +1,4 @@
+const {execSync} = require('child_process');
 const EventEmitter = require('events');
 
 module.exports = function (argument) {
@@ -54,6 +55,20 @@ module.exports = function (argument) {
                 const amount = process.memoryUsage().heapUsed;
                 const result = allowedAmount < amount;
                 console.log("Resource limit, memory: " + allowedAmount + "?<" + amount);
+                return triggeredAction(result);
+            }
+        }
+    };
+    // Thread-related limits
+    this.threads = function () {
+        return {
+            moreThan: function moreThan(allowedAmount) {
+                self.checkArguments = arguments;
+                self.check = moreThan;
+                const threadCount = execSync('cat /proc/' + process.pid + '/status | grep -i Threads').toString().trim();
+                const amount = parseInt(threadCount.split('\t')[1]);
+                const result = allowedAmount < amount;
+                console.log("Resource limit, thread  count: " + allowedAmount + "?<" + amount);
                 return triggeredAction(result);
             }
         }
