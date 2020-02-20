@@ -1,6 +1,35 @@
 const {execSync} = require('child_process');
 const EventEmitter = require('events');
 
+const metrics = {
+    aggregated: function () {
+        const memoryAmount = metrics.memory.amount();
+        const threadsAmount = metrics.threads.amount();
+        const listenersAmount = metrics.events.listenersAmount();
+        const aggregate = `Memory: ${memoryAmount}, threads: ${threadsAmount}, listeners: ${listenersAmount}`;
+        return aggregate;
+    },
+    memory: {
+        amount: function () {
+            const amount = process.memoryUsage().heapUsed;
+            return amount;
+        }
+    },
+    threads: {
+        amount: function () {
+            const threadCount = execSync('cat /proc/' + process.pid + '/status | grep -i Threads').toString().trim();
+            const amount = parseInt(threadCount.split('\t')[1]);
+            return amount;
+        }
+    },
+    events: {
+        listenersAmount: function () {
+            const amount = EventEmitter.prototype.globalListenerCount;
+            return amount;
+        }
+    }
+};
+
 module.exports = function (argument) {
     // Instance magic
     let self = this;
@@ -101,3 +130,4 @@ module.exports = function (argument) {
         }
     };
 };
+module.exports.metrics = metrics;

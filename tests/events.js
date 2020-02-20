@@ -5,15 +5,15 @@ let ResourceLimit = require('../main');
 new ResourceLimit()
     .periodical(500)
     .events()
-    .moreListenersThan(5 + 2)
+    .moreListenersThan(5 + 3)
     .terminate();
 
 // "console.log" creates 2 listeners
 new ResourceLimit()
     .periodical(500)
     .events()
-    .moreListenersThan(3 + 2)
-    .log(() => "Event listener count exceeded");
+    .moreListenersThan(3 + 3)
+    .log(() => ResourceLimit.metrics.aggregated());
 
 let emitter = new EventEmitter();
 
