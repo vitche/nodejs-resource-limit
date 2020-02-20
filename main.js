@@ -81,9 +81,8 @@ module.exports = function (argument) {
             moreThan: function moreThan(allowedAmount) {
                 self.checkArguments = arguments;
                 self.check = moreThan;
-                const amount = process.memoryUsage().heapUsed;
+                const amount = metrics.memory.amount();
                 const result = allowedAmount < amount;
-                console.log("Resource limit, memory: " + allowedAmount + "?<" + amount);
                 return triggeredAction(result);
             }
         }
@@ -94,10 +93,8 @@ module.exports = function (argument) {
             moreThan: function moreThan(allowedAmount) {
                 self.checkArguments = arguments;
                 self.check = moreThan;
-                const threadCount = execSync('cat /proc/' + process.pid + '/status | grep -i Threads').toString().trim();
-                const amount = parseInt(threadCount.split('\t')[1]);
+                const amount = metrics.threads.amount();
                 const result = allowedAmount < amount;
-                console.log("Resource limit, thread  count: " + allowedAmount + "?<" + amount);
                 return triggeredAction(result);
             }
         }
@@ -122,9 +119,8 @@ module.exports = function (argument) {
                         return EventEmitter.prototype.removeListenerOriginal.apply(this, arguments);
                     };
                 }
-                const amount = EventEmitter.prototype.globalListenerCount;
+                const amount = metrics.events.listenersAmount();
                 const result = allowedAmount < amount;
-                console.log("Resource limit, event listeners: " + allowedAmount + "?<" + amount);
                 return triggeredAction(result);
             }
         }

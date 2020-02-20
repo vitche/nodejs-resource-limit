@@ -14,5 +14,5 @@ new ResourceLimit()
 new ResourceLimit()
     .periodical(2000)
     .memory()
-    .moreThan(2700000)
+    .moreThan(3700000)
     .terminate();
