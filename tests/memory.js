@@ -2,7 +2,7 @@ let ResourceLimit = require('../main');
 
 new ResourceLimit()
     .memory()
-    .moreThan(2570000)
+    .moreThan(25700000)
     .terminate();
 
 new ResourceLimit()
@@ -12,7 +12,13 @@ new ResourceLimit()
     .nothing();
 
 new ResourceLimit()
+    .periodical(5000)
+    .memory()
+    .moreThan(900000)
+    .memorySnapshotLog(false, 400000);
+
+new ResourceLimit()
     .periodical(2000)
     .memory()
-    .moreThan(3700000)
+    .moreThan(87000000)
     .terminate();

@@ -7,6 +7,9 @@
     "test-memory": "node tests/memory",
     "start": "node main.js"
   },
+  "dependencies": {
+    "nodejs-memory-snapshot-log": "git+https://github.com/vitche/nodejs-memory-snapshot-log.git"
+  },
   "author": "Vitche Research Team Developer",
   "license": "ISC"
 }

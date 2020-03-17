@@ -1,5 +1,7 @@
+const fs = require('fs');
 const {execSync} = require('child_process');
 const EventEmitter = require('events');
+const memorySnapshotLog = require('nodejs-memory-snapshot-log');
 
 const metrics = {
     aggregated: function () {
@@ -70,6 +72,23 @@ module.exports = function (argument) {
                     const message = self.actionLogArgument();
                     console.log(message);
                 }
+            }
+        };
+        this.memorySnapshotLog = function log(boundResult, level) {
+            self.action = log;
+            if (level) {
+                self.level = level;
+            }
+            if (result || boundResult) {
+                memorySnapshotLog.snapshot('/tmp', (error, path) => {
+                    if (error) {
+                        console.log('Failed writing memory snapshot');
+                        return;
+                    }
+                    memorySnapshotLog.log(path, self.level);
+                    fs.unlink(path, () => {
+                    });
+                });
             }
         };
         return this;
