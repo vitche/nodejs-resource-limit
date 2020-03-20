@@ -11,11 +11,13 @@ new ResourceLimit()
     .moreThan(100000)
     .nothing();
 
+/*
 new ResourceLimit()
     .periodical(5000)
     .memory()
     .moreThan(900000)
     .memorySnapshotLog(false, 400000);
+ */
 
 new ResourceLimit()
     .periodical(2000)

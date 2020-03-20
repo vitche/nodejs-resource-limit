@@ -1,7 +1,7 @@
 const fs = require('fs');
 const {execSync} = require('child_process');
 const EventEmitter = require('events');
-const memorySnapshotLog = require('nodejs-memory-snapshot-log');
+// const memorySnapshotLog = require('nodejs-memory-snapshot-log');
 
 const metrics = {
     aggregated: function () {
@@ -74,6 +74,7 @@ module.exports = function (argument) {
                 }
             }
         };
+        /*
         this.memorySnapshotLog = function log(boundResult, level) {
             self.action = log;
             if (level) {
@@ -91,6 +92,7 @@ module.exports = function (argument) {
                 });
             }
         };
+         */
         return this;
     };
     // Memory-related limits
