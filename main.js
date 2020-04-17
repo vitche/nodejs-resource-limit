@@ -95,6 +95,18 @@ module.exports = function (argument) {
          */
         return this;
     };
+    // Count-down limits
+    this.countDown = function () {
+        return {
+            to: function to(allowedAmount) {
+                self.checkArguments = arguments;
+                self.check = to;
+                self.checkArguments[0]--;
+                const result = self.checkArguments[0] <= 0;
+                return triggeredAction(result);
+            }
+        };
+    };
     // Memory-related limits
     this.memory = function () {
         return {
