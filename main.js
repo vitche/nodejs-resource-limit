@@ -55,6 +55,19 @@ module.exports = function (argument) {
         this.nothing = function nothing(boundResult) {
             self.action = nothing;
         };
+        // Execute a given callback
+        this.execute = function execute(boundResult) {
+            self.action = execute;
+            if ('function' === typeof boundResult) {
+                self.actionExecuteArgument = boundResult;
+            }
+            if (result || true === boundResult) {
+                if (self.actionExecuteArgument) {
+                    const next = self.actionExecuteArgument;
+                    next();
+                }
+            }
+        };
         // Terminate the current process
         this.terminate = function terminate(boundResult) {
             self.action = terminate;
